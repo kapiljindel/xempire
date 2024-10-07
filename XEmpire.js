@@ -166,14 +166,7 @@ const waitWithCountdown = async (seconds) => {
 
 const printBanner = () => {
     console.log("\x1b[1;91m" +  // Bold Red
-`   _  __  ____           _                       
-  | |/_/ / __/_ _  ___  (_)______                
- _>  <  / _//  ' \/ _ \/ / __/ -_)               
-/_/|_| /___/_/_/_/ .__/_/_/  \\__/     ___________
-  /  |/  /__ ___/_/ ___ ____  ___ _  |_  <  /_  /
- / /|_/ / _ \`/  ' \\/ _ \`/ _ \\/ _ \`/ _/_ </ //_ < 
-/_/  /_/\\_,_/_/_/_/\\_,_/_//_/\\_, / /____/_/____/ 
-                            /___/
+`   _  __  ____           _                     
 ` + "\x1b[0m" + "\x1b[1;96m" +  // Bold Cyan
 
 `🐹************************🐹
@@ -256,14 +249,13 @@ const processGuiTap = async (apiKey) => {
 
 const processSkillUpgrade = async (apiKey) => {
     try {
-        // Dynamically import the chalk module
         const { default: chalk } = await import('chalk');
 
         const dbSkillsResponse = await getDB(apiKey);
         if (dbSkillsResponse.success) {
             const userData = await getUserData(apiKey);
             let money = userData.data.hero.money;
-            
+
             for (const skill of dbSkillsResponse.data.dbSkills) {
                 while (money > skill.priceBasic) {
                     try {
@@ -275,6 +267,14 @@ const processSkillUpgrade = async (apiKey) => {
                             console.log(chalk.red.bold(`Upgrade your skills ${skill.title} failure!`));
                             break;
                         }
+
+                        // Generate a random delay between 5 and 10 minutes
+                        const randomDelayMinutes = Math.floor(Math.random() * (10 - 5 + 1)) + 5; // between 5 and 10
+                        const randomDelayMilliseconds = randomDelayMinutes * 60000; // Convert to milliseconds
+
+                        // Add the random delay after each upgrade attempt
+                        await new Promise(resolve => setTimeout(resolve, randomDelayMilliseconds));
+
                     } catch (error) {
                         console.log(chalk.red.bold(`Error while upgrading skill ${skill.title}: ${error.message}`));
                         break;
@@ -286,6 +286,7 @@ const processSkillUpgrade = async (apiKey) => {
         console.log(chalk.red.bold(`Error while upgrading skill: ${error.message}`));
     }
 };
+
 
 
 const processPvP = async (apiKey) => {
