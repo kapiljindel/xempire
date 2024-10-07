@@ -347,36 +347,19 @@ const main = async () => {
 
 
 function waitForResponse(question, defaultResponse) {
-    return new Promise((resolve) => {
-        let timer = 2; // 2 seconds countdown
-        console.log(question + ` (y/n, default: ${defaultResponse}): `);
-
-        const interval = setInterval(() => {
-            if (timer > 0) {
-                process.stdout.write(`\rYou have ${timer--} seconds to respond...`);
-            } else {
-                clearInterval(interval);
-                console.log(`\nNo response. Defaulting to "${defaultResponse}".`);
-                resolve(defaultResponse);
-            }
-        }, 1000);
-
-        // Listen for user input
-        askQuestion().then((response) => {
-            clearInterval(interval);
-            console.log('\nResponse received.');
-            resolve(response.toLowerCase() === '' ? defaultResponse : response.toLowerCase());
-        });
-    });
+    console.log(question + ` (y/n, default: ${defaultResponse}): `);
+    return defaultResponse; // Immediately return the default response
 }
 
-const nangcap = await waitForResponse('Do you want to upgrade your skills?', 'y');
+// Example usage
+const nangcap = waitForResponse('Do you want to upgrade your skills?', 'y');
 const hoinangcap = nangcap === 'y';
 
-const pvp = await waitForResponse('Do you want to play negotiation?', 'n');
+const pvp = waitForResponse('Do you want to play negotiation?', 'n');
 const hoipvp = pvp === 'y';
 
 console.clear();
+
 
 
 
