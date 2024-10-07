@@ -71,7 +71,7 @@ const improveSkill = async (apiKey, skillKey) => {
 
 const guiTap = async (apiKey, amount, currentEnergy) => {
     const url = "https://api.muskempire.io/hero/action/tap";
-    const seconds = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
+    const seconds = Math.floor(Math.random() * (1800 - 700 + 1)) + 700;
     const payload = {
         data: {
             data: {
@@ -159,7 +159,7 @@ const waitWithCountdown = async (seconds) => {
     for (let i = seconds; i >= 0; i--) {
         readline.cursorTo(process.stdout, 0);
         process.stdout.write(`${cyanBold}Wait ${i}${reset}`);            
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 6000));
     }
     console.log('');
 };
@@ -405,7 +405,7 @@ console.clear();
                 console.log(`Error processing account ${no + 1}: ${error.message}`);
             }
         }
-        await waitWithCountdown(Math.floor(60));
+        await waitWithCountdown(Math.floor(180));
         console.clear();
         printBanner();  // Print banner after clearing the console
     }
